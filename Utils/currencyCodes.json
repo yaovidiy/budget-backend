@@ -1,0 +1,692 @@
+{
+  "100": {
+      "code": "BGL",
+      "fullName": "Болгарский лев",
+      "symbol": "BGN  с 05.07.1999"
+  },
+  "108": {
+      "code": "BIF",
+      "fullName": "Бурундийский франк",
+      "symbol": ""
+  },
+  "116": {
+      "code": "KHR",
+      "fullName": "Камбоджийский риель",
+      "symbol": ""
+  },
+  "124": {
+      "code": "CAD",
+      "fullName": "Канадский доллар",
+      "symbol": ""
+  },
+  "144": {
+      "code": "LKR",
+      "fullName": "Шри-ланкийская рупия",
+      "symbol": ""
+  },
+  "152": {
+      "code": "CLP",
+      "fullName": "Чилийский песо",
+      "symbol": ""
+  },
+  "156": {
+      "code": "CNY",
+      "fullName": "Китайский юань женьминьби",
+      "symbol": ""
+  },
+  "170": {
+      "code": "COP",
+      "fullName": "Колумбийский песо",
+      "symbol": ""
+  },
+  "188": {
+      "code": "CRC",
+      "fullName": "Костариканский колон",
+      "symbol": ""
+  },
+  "191": {
+      "code": "HRK",
+      "fullName": "Хорватская куна",
+      "symbol": ""
+  },
+  "192": {
+      "code": "CUP",
+      "fullName": "Кубинский песо",
+      "symbol": ""
+  },
+  "196": {
+      "code": "CYP",
+      "fullName": "Кипрский фунт",
+      "symbol": "EUR  с 01.01.2008"
+  },
+  "203": {
+      "code": "CZK",
+      "fullName": "Чешская крона",
+      "symbol": ""
+  },
+  "208": {
+      "code": "DKK",
+      "fullName": "Датская крона",
+      "symbol": ""
+  },
+  "230": {
+      "code": "ETB",
+      "fullName": "Эфиопский быр",
+      "symbol": ""
+  },
+  "233": {
+      "code": "EEK",
+      "fullName": "Эстонская крона",
+      "symbol": "EUR  с 01.01.2011"
+  },
+  "262": {
+      "code": "DJF",
+      "fullName": "Джибутийский франк",
+      "symbol": ""
+  },
+  "270": {
+      "code": "GMD",
+      "fullName": "Гамбийский даласи",
+      "symbol": ""
+  },
+  "288": {
+      "code": "GHC",
+      "fullName": "Ганский седи",
+      "symbol": "GHS  с 02.09.2007"
+  },
+  "324": {
+      "code": "GNF",
+      "fullName": "Гвинейский франк",
+      "symbol": ""
+  },
+  "344": {
+      "code": "HKD",
+      "fullName": "Гонконгский доллар",
+      "symbol": ""
+  },
+  "348": {
+      "code": "HUF",
+      "fullName": "Венгерский форинт",
+      "symbol": ""
+  },
+  "352": {
+      "code": "ISK",
+      "fullName": "Исландская крона",
+      "symbol": ""
+  },
+  "356": {
+      "code": "INR",
+      "fullName": "Индийская рупия",
+      "symbol": ""
+  },
+  "360": {
+      "code": "IDR",
+      "fullName": "Индонезийская рупия",
+      "symbol": ""
+  },
+  "364": {
+      "code": "IRR",
+      "fullName": "Иранский риал",
+      "symbol": ""
+  },
+  "368": {
+      "code": "IQD",
+      "fullName": "Иракский динар",
+      "symbol": ""
+  },
+  "376": {
+      "code": "ILS",
+      "fullName": "Израильский шекель",
+      "symbol": ""
+  },
+  "392": {
+      "code": "JPY",
+      "fullName": "Японская йена",
+      "symbol": "¥"
+  },
+  "398": {
+      "code": "KZT",
+      "fullName": "Казахский тенге",
+      "symbol": ""
+  },
+  "400": {
+      "code": "JOD",
+      "fullName": "Иорданский динар",
+      "symbol": ""
+  },
+  "404": {
+      "code": "KES",
+      "fullName": "Кенийский шиллинг",
+      "symbol": ""
+  },
+  "408": {
+      "code": "KPW",
+      "fullName": "Северо-корейская вона (КНДР)",
+      "symbol": ""
+  },
+  "410": {
+      "code": "KRW",
+      "fullName": "Южно-корейская вона (Корея)",
+      "symbol": ""
+  },
+  "414": {
+      "code": "KWD",
+      "fullName": "Кувейтский динар",
+      "symbol": ""
+  },
+  "417": {
+      "code": "KGS",
+      "fullName": "Киргизский сом",
+      "symbol": ""
+  },
+  "418": {
+      "code": "LAK",
+      "fullName": "Лаосский кип",
+      "symbol": ""
+  },
+  "422": {
+      "code": "LBP",
+      "fullName": "Ливанский фунт",
+      "symbol": ""
+  },
+  "428": {
+      "code": "LVL",
+      "fullName": "Латвийский лат",
+      "symbol": "EUR  с 01.01.2014"
+  },
+  "434": {
+      "code": "LYD",
+      "fullName": "Ливийский динар",
+      "symbol": ""
+  },
+  "440": {
+      "code": "LTL",
+      "fullName": "Литовский лит",
+      "symbol": "EUR  с 01.01.2015"
+  },
+  "454": {
+      "code": "MWK",
+      "fullName": "Малавийская квача",
+      "symbol": ""
+  },
+  "458": {
+      "code": "MYR",
+      "fullName": "Малайзийский ринггит",
+      "symbol": ""
+  },
+  "462": {
+      "code": "MVR",
+      "fullName": "Мальдивская руфия",
+      "symbol": ""
+  },
+  "470": {
+      "code": "MTL",
+      "fullName": "Мальтийская лира",
+      "symbol": "EUR  с 01.01.2008"
+  },
+  "478": {
+      "code": "MRO",
+      "fullName": "Мавританская угия",
+      "symbol": ""
+  },
+  "480": {
+      "code": "MUR",
+      "fullName": "Маврикийская рупия",
+      "symbol": ""
+  },
+  "484": {
+      "code": "MXN",
+      "fullName": "Мексиканский песо",
+      "symbol": ""
+  },
+  "496": {
+      "code": "MNT",
+      "fullName": "Монгольский тугрик",
+      "symbol": ""
+  },
+  "498": {
+      "code": "MDL",
+      "fullName": "Молдовский лей",
+      "symbol": ""
+  },
+  "504": {
+      "code": "MAD",
+      "fullName": "Марокканский дирхам",
+      "symbol": ""
+  },
+  "512": {
+      "code": "OMR",
+      "fullName": "Оманский риал",
+      "symbol": ""
+  },
+  "516": {
+      "code": "NAD",
+      "fullName": "Намибийский доллар",
+      "symbol": ""
+  },
+  "524": {
+      "code": "NPR",
+      "fullName": "Непальская рупия",
+      "symbol": ""
+  },
+  "554": {
+      "code": "NZD",
+      "fullName": "Ново­зеландский доллар",
+      "symbol": ""
+  },
+  "558": {
+      "code": "NIO",
+      "fullName": "Никарагуанская кордоба",
+      "symbol": ""
+  },
+  "566": {
+      "code": "NGN",
+      "fullName": "Нигерийская наира",
+      "symbol": ""
+  },
+  "578": {
+      "code": "NOK",
+      "fullName": "Норвежская крона",
+      "symbol": ""
+  },
+  "586": {
+      "code": "PKR",
+      "fullName": "Пакистанская рупия",
+      "symbol": ""
+  },
+  "600": {
+      "code": "PYG",
+      "fullName": "Парагвайский гуарани",
+      "symbol": ""
+  },
+  "604": {
+      "code": "PEN",
+      "fullName": "Перуанский соль",
+      "symbol": ""
+  },
+  "608": {
+      "code": "PHP",
+      "fullName": "Филиппинский песо",
+      "symbol": ""
+  },
+  "634": {
+      "code": "QAR",
+      "fullName": "Катарский риал",
+      "symbol": ""
+  },
+  "642": {
+      "code": "ROL",
+      "fullName": "Румынский лей",
+      "symbol": "RON  с 01.06.2005"
+  },
+  "643": {
+      "code": "RUB",
+      "fullName": "Российский рубль",
+      "symbol": ""
+  },
+  "682": {
+      "code": "SAR",
+      "fullName": "Саудовский риял",
+      "symbol": ""
+  },
+  "690": {
+      "code": "SCR",
+      "fullName": "Сейшельская рупия",
+      "symbol": ""
+  },
+  "694": {
+      "code": "SLL",
+      "fullName": "Сьерра-леонский леоне",
+      "symbol": ""
+  },
+  "702": {
+      "code": "SGD",
+      "fullName": "Сингапурский доллар",
+      "symbol": ""
+  },
+  "703": {
+      "code": "SKK",
+      "fullName": "Словацкая крона",
+      "symbol": "EUR  с 01.01.2009"
+  },
+  "704": {
+      "code": "VND",
+      "fullName": "Вьетнамский донг",
+      "symbol": ""
+  },
+  "705": {
+      "code": "SIT",
+      "fullName": "Словенский толар",
+      "symbol": "EUR  с 01.01.2007"
+  },
+  "706": {
+      "code": "SOS",
+      "fullName": "Сомалийский шиллинг",
+      "symbol": ""
+  },
+  "710": {
+      "code": "ZAR",
+      "fullName": "Южно-африканский рэнд",
+      "symbol": ""
+  },
+  "736": {
+      "code": "SDD",
+      "fullName": "Суданский динар",
+      "symbol": "SDG  с 02.06.2007"
+  },
+  "748": {
+      "code": "SZL",
+      "fullName": "Свазилендский лилангени",
+      "symbol": ""
+  },
+  "752": {
+      "code": "SEK",
+      "fullName": "Шведская крона",
+      "symbol": ""
+  },
+  "756": {
+      "code": "CHF",
+      "fullName": "Швейцарский франк",
+      "symbol": ""
+  },
+  "760": {
+      "code": "SYP",
+      "fullName": "Сирийский фунт",
+      "symbol": ""
+  },
+  "764": {
+      "code": "THB",
+      "fullName": "Таиландский бат",
+      "symbol": ""
+  },
+  "784": {
+      "code": "AED",
+      "fullName": "Дирхам ОАЭ",
+      "symbol": ""
+  },
+  "788": {
+      "code": "TND",
+      "fullName": "Тунисский динар",
+      "symbol": ""
+  },
+  "792": {
+      "code": "TRL",
+      "fullName": "Турецкая лира",
+      "symbol": "TRY  с 06.01.2005"
+  },
+  "795": {
+      "code": "TMM",
+      "fullName": "Туркменский манат",
+      "symbol": "TMT  с 01.01.2009"
+  },
+  "800": {
+      "code": "UGX",
+      "fullName": "Угандийский шиллинг",
+      "symbol": ""
+  },
+  "807": {
+      "code": "MKD",
+      "fullName": "Македонский денар",
+      "symbol": ""
+  },
+  "810": {
+      "code": "RUR",
+      "fullName": "Российский рубль",
+      "symbol": "RUB  с 01.04.2004"
+  },
+  "818": {
+      "code": "EGP",
+      "fullName": "Египетский фунт",
+      "symbol": ""
+  },
+  "826": {
+      "code": "GBP",
+      "fullName": "Фунт стерлингов Велико­британии",
+      "symbol": "£"
+  },
+  "834": {
+      "code": "TZS",
+      "fullName": "Танзанийский шиллинг",
+      "symbol": ""
+  },
+  "840": {
+      "code": "USD",
+      "fullName": "Доллар США",
+      "symbol": "$"
+  },
+  "858": {
+      "code": "UYU",
+      "fullName": "Уругвайский песо",
+      "symbol": ""
+  },
+  "860": {
+      "code": "UZS",
+      "fullName": "Узбекский сум",
+      "symbol": ""
+  },
+  "862": {
+      "code": "VEB",
+      "fullName": "Венесуэльский боливар",
+      "symbol": "VEF  с 02.01.2008"
+  },
+  "886": {
+      "code": "YER",
+      "fullName": "Йеменский риал",
+      "symbol": ""
+  },
+  "891": {
+      "code": "CSD",
+      "fullName": "Сербский динар",
+      "symbol": "RSD  с 02.01.2007"
+  },
+  "894": {
+      "code": "ZMK",
+      "fullName": "Замбийская квача",
+      "symbol": ""
+  },
+  "901": {
+      "code": "TWD",
+      "fullName": "Тайваньский доллар",
+      "symbol": ""
+  },
+  "933": {
+      "code": "BYN",
+      "fullName": "Белорусский рубль",
+      "symbol": ""
+  },
+  "936": {
+      "code": "GHS",
+      "fullName": "Ганский седи",
+      "symbol": ""
+  },
+  "937": {
+      "code": "VEF",
+      "fullName": "Венесуэльский боливар",
+      "symbol": ""
+  },
+  "938": {
+      "code": "SDG",
+      "fullName": "Суданский фунт",
+      "symbol": ""
+  },
+  "941": {
+      "code": "RSD",
+      "fullName": "Сербский динар",
+      "symbol": ""
+  },
+  "943": {
+      "code": "MZN",
+      "fullName": "Мозамбикский метикал",
+      "symbol": ""
+  },
+  "944": {
+      "code": "AZN",
+      "fullName": "Азербайджанский манат",
+      "symbol": ""
+  },
+  "946": {
+      "code": "RON",
+      "fullName": "Новый румынский лей",
+      "symbol": ""
+  },
+  "949": {
+      "code": "TRY",
+      "fullName": "Новая турецкая лира",
+      "symbol": ""
+  },
+  "950": {
+      "code": "XAF",
+      "fullName": "Франк КФА (Центральная Африка)",
+      "symbol": ""
+  },
+  "952": {
+      "code": "XOF",
+      "fullName": "Франк КФА (Западная Африка)",
+      "symbol": ""
+  },
+  "959": {
+      "code": "XAU",
+      "fullName": "Золото",
+      "symbol": ""
+  },
+  "960": {
+      "code": "XDR",
+      "fullName": "СПЗ",
+      "symbol": ""
+  },
+  "961": {
+      "code": "XAG",
+      "fullName": "Серебро",
+      "symbol": ""
+  },
+  "962": {
+      "code": "XPT",
+      "fullName": "Платина",
+      "symbol": ""
+  },
+  "964": {
+      "code": "XPD",
+      "fullName": "Палладий",
+      "symbol": ""
+  },
+  "968": {
+      "code": "SRD",
+      "fullName": "Суринамский доллар",
+      "symbol": ""
+  },
+  "969": {
+      "code": "MGA",
+      "fullName": "Малагасийский ариари",
+      "symbol": ""
+  },
+  "971": {
+      "code": "AFN",
+      "fullName": "Афганский афгани",
+      "symbol": ""
+  },
+  "972": {
+      "code": "TJS",
+      "fullName": "Таджикский сомони",
+      "symbol": ""
+  },
+  "973": {
+      "code": "AOA",
+      "fullName": "Ангольская кванза",
+      "symbol": ""
+  },
+  "974": {
+      "code": "BYR",
+      "fullName": "Белорусский рубль",
+      "symbol": "BYN  с 01.07.2016"
+  },
+  "975": {
+      "code": "BGN",
+      "fullName": "Болгарский лев",
+      "symbol": ""
+  },
+  "976": {
+      "code": "CDF",
+      "fullName": "Конголезский франк",
+      "symbol": ""
+  },
+  "978": {
+      "code": "EUR",
+      "fullName": "Евро",
+      "symbol": "€"
+  },
+  "980": {
+      "code": "UAH",
+      "fullName": "Украинская гривна",
+      "symbol": ""
+  },
+  "981": {
+      "code": "GEL",
+      "fullName": "Грузинский лари",
+      "symbol": ""
+  },
+  "985": {
+      "code": "PLN",
+      "fullName": "Польский злотый",
+      "symbol": ""
+  },
+  "986": {
+      "code": "BRL",
+      "fullName": "Бразильский реал",
+      "symbol": ""
+  },
+  "008": {
+      "code": "ALL",
+      "fullName": "Албанский лек",
+      "symbol": ""
+  },
+  "051": {
+      "code": "AMD",
+      "fullName": "Армянский драм",
+      "symbol": ""
+  },
+  "032": {
+      "code": "ARS",
+      "fullName": "Аргентинский песо",
+      "symbol": ""
+  },
+  "036": {
+      "code": "AUD",
+      "fullName": "Австралийский доллар",
+      "symbol": ""
+  },
+  "050": {
+      "code": "BDT",
+      "fullName": "Бангладешская така",
+      "symbol": ""
+  },
+  "048": {
+      "code": "BHD",
+      "fullName": "Бахрейнский динар",
+      "symbol": ""
+  },
+  "096": {
+      "code": "BND",
+      "fullName": "Брунейский доллар",
+      "symbol": ""
+  },
+  "068": {
+      "code": "BOB",
+      "fullName": "Боливийский боливиано",
+      "symbol": ""
+  },
+  "072": {
+      "code": "BWP",
+      "fullName": "Ботсванская пула",
+      "symbol": ""
+  },
+  "012": {
+      "code": "DZD",
+      "fullName": "Алжирский динар",
+      "symbol": ""
+  },
+  "031": {
+      "code": "AZM",
+      "fullName": "Азербайджанский манат",
+      "symbol": "AZN  с 01.01.2006"
+  }
+}

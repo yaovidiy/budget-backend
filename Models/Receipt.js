@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 const ReceiptSchema = new mongoose.Schema(
   {
     amount: Number,
-    currency: String,
+    operationAmount: Number,
+    currency: Number,
     description: String,
     time: Number,
     commissionRate: Number,
     cashbackAmount: Number,
+    category: Number,
     comment: String,
     counterIban: String
   }

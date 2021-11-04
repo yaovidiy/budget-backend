@@ -78,3 +78,22 @@ module.exports.updateDataBase = async (req, res) => {
     res.status(500).json(error);
   })
 }
+
+module.exports.getReceipts = async (req, res) => {
+  try {
+    const Receipts = await Receipt.find();
+    const procesedReceipts = Receipts.map(receipt => {
+      const Date = new Date(receipt.time * 1000);
+      const date = Date.getDate() < 10 ? `0${Date.getDate()}` : `${Date.getDate()}`;
+      let month = Date.getMonth() + 1;
+      month = month < 10 ? `0${month}` : `${month}`;
+      const readableDate = `${date}.${month}.${Date.getFullYear()}`;
+
+      receipt.date = readableDate;
+      receipt
+    })
+
+   } catch (err) {
+    
+  }
+}
