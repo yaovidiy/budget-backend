@@ -19,6 +19,7 @@ app.get('/user', MonoController.getUserInfo);
 app.get('/currency', MonoController.getCurrency);
 app.get('/receipt', MonoController.getReceipt);
 app.get('/updateDB', MonoController.updateDataBase);
+app.get('/getGroupedData', MonoController.getReceipts);
 
 app.listen(port, () => {
   console.log(`app is running on ${port}`);
