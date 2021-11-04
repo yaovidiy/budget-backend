@@ -2,6 +2,7 @@ const MonoAPI = require('../Models/MonoAPI');
 const Receipt = require('../Models/Receipt');
 const currencyCodes = require('../Utils/currencyCodes.json');
 const categorysCodes = require('../Utils/mccCodes.json');
+const nodemailer = require('nodemailer');
 
 const saveReceipt = data => {
   const receiptObject = {
@@ -189,5 +190,35 @@ module.exports.getReceipts = async (req, res) => {
    } catch (err) {
      console.log(err);
     res.status(500).json(err);
+  }
+}
+
+module.exports.saveFromWebHook = async (req, res) => {
+  try {
+    await saveReceipt(req.body.statementItem);
+  } catch (err) {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'yaovidiy@gmail.com',
+        pass: process.env.EMAIL_PASSWORD
+      }
+    });
+
+    const mailOptions = {
+      from: 'yaovidiy@gmail.com',
+      to: 'yaovdiy@gmail.com',
+      subject: 'Monobank WebHook failed',
+      text: `Error: 
+      ${err}`
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
   }
 }
