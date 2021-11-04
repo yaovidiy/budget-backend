@@ -197,28 +197,6 @@ module.exports.saveFromWebHook = async (req, res) => {
   try {
     await saveReceipt(req.body.statementItem);
   } catch (err) {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'yaovidiy@gmail.com',
-        pass: process.env.EMAIL_PASSWORD
-      }
-    });
-
-    const mailOptions = {
-      from: 'yaovidiy@gmail.com',
-      to: 'yaovdiy@gmail.com',
-      subject: 'Monobank WebHook failed',
-      text: `Error: 
-      ${err}`
-    };
-
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+    console.log(err);
   }
 }
