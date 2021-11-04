@@ -60,27 +60,15 @@ module.exports.getReceipt = (req, res) => {
 }
 
 module.exports.updateDataBase = async (req, res) => {
-  console.log('updateDataBase');
-  const to = new Date();
-  const from = new Date();
-
-  from.setMonth(to.getMonth() - 1);
-  from.setDate(11);
-  to.setMonth(from.getMonth());
-  to.setDate(1);
-
-  console.log(from);
-  console.log(to);
   const options = {
-    from: from.getTime(),
-    to: to.getTime()
+    from: req.query.from,
+    to: req.query.to || null
   };
 
   MonoAPI.fetch('statement', options)
   .then(result => {
     const savedReceipts = result.map(saveReceipt);
 
-    console.log(savedReceipts);
     return Promise.all(savedReceipts);
   })
   .then(savedReceipts => {
