@@ -195,7 +195,8 @@ module.exports.getReceipts = async (req, res) => {
 
 module.exports.saveFromWebHook = async (req, res) => {
   try {
-    console.log(req.body);
+    console.log(req.body.data.statementItem);
+    await saveReceipt(req.body.data.statementItem)
     console.log(req);
   } catch (err) {
     console.log(err);
