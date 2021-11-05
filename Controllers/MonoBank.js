@@ -106,7 +106,7 @@ module.exports.updateDataBase = async (req, res) => {
   .then(result => {
     const savedReceipts = result.map(saveReceipt);
 
-    return Promise.all(savedReceipts);
+    return Promise.allSettled(savedReceipts);
   })
   .then(savedReceipts => {
     res.status(200).json(savedReceipts);
@@ -196,6 +196,7 @@ module.exports.getReceipts = async (req, res) => {
 module.exports.saveFromWebHook = async (req, res) => {
   try {
     console.log(req.body);
+    console.log(req);
   } catch (err) {
     console.log(err);
   }
