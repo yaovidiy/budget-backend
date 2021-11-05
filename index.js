@@ -21,6 +21,7 @@ app.get('/receipt', MonoController.getReceipt);
 app.get('/updateDB', MonoController.updateDataBase);
 app.get('/getGroupedData', MonoController.getReceipts);
 app.post('/saveFromWebHook', MonoController.saveFromWebHook);
+app.get('/saveFromWebHook', MonoController.saveFromWebHook);
 
 app.listen(port, () => {
   console.log(`app is running on ${port}`);
