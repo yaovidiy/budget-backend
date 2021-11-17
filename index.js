@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const MonoController = require('./Controllers/MonoBank');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const cors = require('cors');
 
 mongoose
@@ -22,6 +22,8 @@ app.get('/updateDB', MonoController.updateDataBase);
 app.get('/getGroupedData', MonoController.getReceipts);
 app.post('/saveFromWebHook', MonoController.saveFromWebHook);
 app.get('/saveFromWebHook', MonoController.saveFromWebHook);
+app.post('/getByDescription', MonoController.getByDescription);
+app.post('/getByCategory', MonoController.getByCategory);
 
 app.listen(port, () => {
   console.log(`app is running on ${port}`);

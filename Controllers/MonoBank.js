@@ -24,6 +24,21 @@ const saveReceipt = data => {
   return newReceipt.save();
 }
 
+const transformReceipts = (receipts) => {
+  return receipts.map((receipt) => {
+    receipt.date = createReadableDate(receipt.time);
+    receipt.time = createReadableTime(receipt.time);
+    receipt.category = categorysCodes[receipt.category];
+    receipt.currency = currencyCodes[receipt.currency].symbol || currencyCodes[receipt.currency].code;
+    receipt.amount = receipt.amount / 100;
+    receipt.operationAmount = receipt.operationAmount / 100;
+    receipt.commissionRate = receipt.commissionRate / 100;
+    receipt.cashbackAmount = receipt.cashbackAmount / 100;
+
+    return receipt;
+  });
+}
+
 const createReadableDate = time => {
   const miliseconds = time * 1000;
 
@@ -119,17 +134,8 @@ module.exports.updateDataBase = async (req, res) => {
 
 module.exports.getReceipts = async (req, res) => {
   try {
-    const Receipts = await Receipt.find().lean();
-    Receipts.forEach(receipt => {
-      receipt.date = createReadableDate(receipt.time);
-      receipt.time = createReadableTime(receipt.time);
-      receipt.category = categorysCodes[receipt.category];
-      receipt.currency = currencyCodes[receipt.currency].symbol || currencyCodes[receipt.currency].code;
-      receipt.amount = receipt.amount / 100;
-      receipt.operationAmount = receipt.operationAmount / 100;
-      receipt.commissionRate = receipt.commissionRate / 100;
-      receipt.cashbackAmount = receipt.cashbackAmount / 100;
-    });
+    let Receipts = await Receipt.find().sort({ time: 'desc'}).lean();
+    Receipts = transformReceipts(Receipts);
 
     const groupedByCategory = Receipts.reduce((groups, receipt) => {
       if (!groups[receipt.category]) {
@@ -140,34 +146,42 @@ module.exports.getReceipts = async (req, res) => {
 
       }
 
-      if (!groups['Cashback']) {
-        groups['Cashback'] = {
+      if (!groups['Кешбек']) {
+        groups['Кешбек'] = {
           receipts: [],
           total: 0
         };
       }
 
-      if (!groups['Commision']) {
-        groups['Commision'] = {
+      if (!groups['Коммісії']) {
+        groups['Коммісії'] = {
           receipts: [],
           total: 0
         };
-      }
-
-      if (receipt.cashbackAmount) {
-        groups['Cashback'].receipts.push(receipt);
-        groups['Cashback'].total += receipt.cashbackAmount;
       }
 
       if (receipt.commissionRate) {
-        groups['Commision'].receipts.push(receipt);
-        groups['Commision'].total += receipt.commissionRate;
-
-        receipt.amount = +(receipt.amount + receipt.commissionRate).toFixed(2); 
+        receipt.amount += receipt.commissionRate;
       }
 
+      
       groups[receipt.category].receipts.push(receipt);
       groups[receipt.category].total += receipt.amount;
+      
+      if (receipt.cashbackAmount) {
+        const newReceipt = {...receipt};
+        newReceipt.amount = newReceipt.cashbackAmount;
+        groups['Кешбек'].receipts.push(newReceipt);
+        groups['Кешбек'].total += newReceipt.cashbackAmount;
+      }
+
+      if (receipt.commissionRate) {
+        const newReceipt = {...receipt}
+        newReceipt.amount = newReceipt.commissionRate * -1; 
+
+        groups['Коммісії'].receipts.push(newReceipt);
+        groups['Коммісії'].total += newReceipt.commissionRate * -1;
+      }
 
       return groups;
     }, {});
@@ -200,5 +214,73 @@ module.exports.saveFromWebHook = async (req, res) => {
     console.log(req);
   } catch (err) {
     console.log(err);
+  }
+}
+
+module.exports.getByDescription = async (req, res) => {
+  try {
+    let Receipts = await Receipt
+      .find({description: req.body.description})
+      .sort({time: 'desc'})
+      .lean();
+
+    Receipts = transformReceipts(Receipts);
+
+    const groupByDate = Receipts.reduce((acc, receipt) => {
+      if (!acc[receipt.date]) {
+        acc[receipt.date] = {};
+        acc[receipt.date].receipts = [];
+        acc[receipt.date].total = 0;
+      }
+
+      acc[receipt.date].receipts.push(receipt);
+      acc[receipt.date].total += receipt.amount;
+
+      return acc;
+    }, {});
+
+    res.status(200).json(groupByDate);
+    
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
+module.exports.getByCategory = async (req, res) => {
+  try {
+    let categoryId;
+
+    for (let id in categorysCodes) {
+      if (categorysCodes[id] === req.body.category) {
+        categoryId = id;
+
+        break;
+      }
+    }
+
+    let Receipts = await Receipt
+      .find({category: categoryId})
+      .sort({time: 'desc'})
+      .lean();
+
+    Receipts = transformReceipts(Receipts);
+
+    const groupByDate = Receipts.reduce((acc, receipt) => {
+      if (!acc[receipt.date]) {
+        acc[receipt.date] = {};
+        acc[receipt.date].receipts = [];
+        acc[receipt.date].total = 0;
+      }
+
+      acc[receipt.date].receipts.push(receipt);
+      acc[receipt.date].total += receipt.amount;
+
+      return acc;
+    }, {});
+
+    res.status(200).json(groupByDate);
+    
+  } catch (err) {
+    res.status(500).json(err);
   }
 }
