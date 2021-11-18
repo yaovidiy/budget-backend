@@ -16,7 +16,8 @@ const ReceiptSchema = new mongoose.Schema(
     cashbackAmount: Number,
     category: Number,
     comment: String,
-    counterIban: String
+    counterIban: String,
+    sortDate: String
   }
 )
 

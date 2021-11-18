@@ -24,6 +24,9 @@ app.post('/saveFromWebHook', MonoController.saveFromWebHook);
 app.get('/saveFromWebHook', MonoController.saveFromWebHook);
 app.post('/getByDescription', MonoController.getByDescription);
 app.post('/getByCategory', MonoController.getByCategory);
+app.get('/dropReceipts', MonoController.dropReceipts);
+app.get('/getCategorys', MonoController.getCategorys);
+app.post('/saveBudget', MonoController.saveBudget);
 
 app.listen(port, () => {
   console.log(`app is running on ${port}`);

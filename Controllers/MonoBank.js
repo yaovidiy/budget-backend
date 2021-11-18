@@ -2,7 +2,7 @@ const MonoAPI = require('../Models/MonoAPI');
 const Receipt = require('../Models/Receipt');
 const currencyCodes = require('../Utils/currencyCodes.json');
 const categorysCodes = require('../Utils/mccCodes.json');
-const nodemailer = require('nodemailer');
+const Budget = require('../Models/Budget');
 
 const saveReceipt = data => {
   const receiptObject = {
@@ -16,13 +16,27 @@ const saveReceipt = data => {
     commissionRate: data.commissionRate,
     cashbackAmount: data.cashbackAmount,
     comment: data.comment,
-    counterIban: data.counterIban
+    counterIban: data.counterIban,
+    sortDate: createReadableDate(data.time, true)
   };
 
   const newReceipt = new Receipt(receiptObject);
   
   return newReceipt.save();
 }
+
+const saveBudgetSingle = (data) => {
+  const budgetData = {
+    category: data.category,
+    categoryId: data.categoryId,
+    amount: data.amount,
+    month: data.month
+  }
+
+  const newBudgetCategory = new Budget(budgetData)
+
+  return newBudgetCategory.save()
+};
 
 const transformReceipts = (receipts) => {
   return receipts.map((receipt) => {
@@ -39,7 +53,7 @@ const transformReceipts = (receipts) => {
   });
 }
 
-const createReadableDate = time => {
+const createReadableDate = (time, isForSorting = false) => {
   const miliseconds = time * 1000;
 
   const DateObj = new Date(miliseconds);
@@ -54,8 +68,11 @@ const createReadableDate = time => {
   date = date < 10
     ? `0${date}`
     : `${date}`;
-  
-  return `${date}.${month}.${fullYear}`;
+  if (!isForSorting) {
+    return `${date}.${month}.${fullYear}`;
+  }
+
+  return `${fullYear}-${month}-${date}`;
 }
 
 const createReadableTime = time => {
@@ -74,6 +91,18 @@ const setCategoryName = categoryCode => {
 
 const setCurrencyName = currencyCode => {
   return currencyCodes[currencyCode].symbol || currencyCodes[currencyCode].code;
+}
+
+module.exports.dropReceipts = async (req, res) => {
+  try {
+    const droped = await Receipt.remove({});
+
+    res.status(200).json(droped)
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json(err);
+  }
 }
 
 module.exports.getUserInfo = (req, res) => {
@@ -134,14 +163,21 @@ module.exports.updateDataBase = async (req, res) => {
 
 module.exports.getReceipts = async (req, res) => {
   try {
-    let Receipts = await Receipt.find().sort({ time: 'desc'}).lean();
+    let Receipts = await Receipt.find({sortDate: {
+      $gte: '2021-11-01',
+      $lte: '2021-11-30'
+    }}).sort({ time: 'desc'}).lean();
+    const BudgetGroups = await Budget.find({month: { $eq: 11 }}).lean();
     Receipts = transformReceipts(Receipts);
 
     const groupedByCategory = Receipts.reduce((groups, receipt) => {
       if (!groups[receipt.category]) {
+        const budget = BudgetGroups.find(budget => budget.category === receipt.category).amount;
         groups[receipt.category] = {
           receipts: [],
-          total: 0
+          total: 0,
+          budget: budget,
+          balance: budget
         };
 
       }
@@ -167,6 +203,7 @@ module.exports.getReceipts = async (req, res) => {
       
       groups[receipt.category].receipts.push(receipt);
       groups[receipt.category].total += receipt.amount;
+      groups[receipt.category].balance -= (receipt.amount * -1)
       
       if (receipt.cashbackAmount) {
         const newReceipt = {...receipt};
@@ -281,6 +318,57 @@ module.exports.getByCategory = async (req, res) => {
     res.status(200).json(groupByDate);
     
   } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
+module.exports.saveBudget = async (req, res) => {
+  try {
+    const budgetData = req.body.budget;
+    const savedBudget = budgetData.map(saveBudgetSingle);
+  
+    const savedResult = await Promise.allSettled(savedBudget)
+
+    res.status(200).json(savedResult);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+}
+
+module.exports.getCategorys = async (req, res) => {
+  try {
+    const BudgetCategoryes = await Budget
+      .find()
+      .lean();
+
+    let getUsedCategorys;
+
+    if (!BudgetCategoryes.length) {
+      getUsedCategorys = await Receipt
+        .find()
+        .select('category')
+        .lean();
+
+      getUsedCategorys = getUsedCategorys.map(({ category, _id }) => {
+        const catObject = {
+          categoryId: category,
+          category: categorysCodes[category],
+          amount: 0
+        };
+
+        return catObject;
+      })
+      .filter((filter, index, array) => array.findIndex(({category}) => category === filter.category) === index );
+    }
+
+    const result = BudgetCategoryes.length
+      ? BudgetCategoryes
+      : getUsedCategorys;
+
+    res.status(200).json(result);
+  } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 }
