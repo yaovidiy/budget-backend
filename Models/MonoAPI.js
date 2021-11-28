@@ -5,10 +5,11 @@ const apiURL = 'https://api.monobank.ua/';
 const endpoints = {
   currency: 'bank/currency',
   'client-info': 'personal/client-info',
-  statement: 'personal/statement/0/'
+  statement: 'personal/statement/'
 };
 let isSended = false;
 let secondsLeft = 60;
+let prevEndpoint = null;
 
 const timer = () => {
   const counter = setInterval(() => {
@@ -22,10 +23,11 @@ const timer = () => {
 }
 
 module.exports.fetch = (endpoint, options = {}) => {
-  if (isSended) {
-    return Promise.resolve(`to many requests next request in ${secondsLeft} seconds`);
+  if (isSended && prevEndpoint === endpoint) {
+    return Promise.resolve(`to many requests next request in ${secondsLeft} seconds ${prevEndpoint} and ${endpoint}`);
   } else {
     isSended = true;
+    prevEndpoint = endpoint;
     timer()
 
     setTimeout(() => {
@@ -40,10 +42,14 @@ module.exports.fetch = (endpoint, options = {}) => {
       throw new Error('Statement enpoint must contain from property in the options array')
     }
 
+    if (!('account' in options)) {
+      options['account']  = '0/'
+    }
+
     const from = Math.floor(options.from / 1000);
     const to = options.to ? Math.floor(options.to / 1000) : null;
 
-    endpointURL = `${apiURL}${endpoints[endpoint]}${from}${!to ? '' : `/${to}`}`
+    endpointURL = `${apiURL}${endpoints[endpoint]}${options.account}${from}${!to ? '' : `/${to}`}`
   }
 
   if (!options.headers) {

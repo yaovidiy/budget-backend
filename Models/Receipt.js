@@ -17,7 +17,8 @@ const ReceiptSchema = new mongoose.Schema(
     category: Number,
     comment: String,
     counterIban: String,
-    sortDate: String
+    sortDate: String,
+    walletId: String
   }
 )
 

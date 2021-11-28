@@ -27,6 +27,11 @@ app.post('/getByCategory', MonoController.getByCategory);
 app.get('/dropReceipts', MonoController.dropReceipts);
 app.get('/getCategorys', MonoController.getCategorys);
 app.post('/saveBudget', MonoController.saveBudget);
+app.get('/globalUpdate', MonoController.globalUpdate);
+app.get('/getWallet', MonoController.getWallet);
+app.get('/dropWallets', MonoController.dropWallets);
+app.get('/getReceiptsSimple', MonoController.getReceiptsSimple);
+app.get('/getByWalletId', MonoController.getByWalletId);
 
 app.listen(port, () => {
   console.log(`app is running on ${port}`);

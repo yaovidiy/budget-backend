@@ -2,9 +2,10 @@ const MonoAPI = require('../Models/MonoAPI');
 const Receipt = require('../Models/Receipt');
 const currencyCodes = require('../Utils/currencyCodes.json');
 const categorysCodes = require('../Utils/mccCodes.json');
+const Wallet = require('../Models/Wallet');
 const Budget = require('../Models/Budget');
 
-const saveReceipt = data => {
+const saveReceipt = (data) => {
   const receiptObject = {
     operationId: data.id,
     amount: data.amount,
@@ -17,6 +18,7 @@ const saveReceipt = data => {
     cashbackAmount: data.cashbackAmount,
     comment: data.comment,
     counterIban: data.counterIban,
+    walletId: data.walletId,
     sortDate: createReadableDate(data.time, true)
   };
 
@@ -26,16 +28,19 @@ const saveReceipt = data => {
 }
 
 const saveBudgetSingle = (data) => {
-  const budgetData = {
+  const options = {
+    new: true,
+    upsert: true
+  }
+  const filter = {
     category: data.category,
-    categoryId: data.categoryId,
-    amount: data.amount,
     month: data.month
   }
+  const update = {
+    amount: data.amount,
+  }
 
-  const newBudgetCategory = new Budget(budgetData)
-
-  return newBudgetCategory.save()
+  return Budget.findOneAndUpdate(filter, update, options)
 };
 
 const transformReceipts = (receipts) => {
@@ -93,6 +98,14 @@ const setCurrencyName = currencyCode => {
   return currencyCodes[currencyCode].symbol || currencyCodes[currencyCode].code;
 }
 
+const getDaysAgo = (days) => {
+  const date = new Date();
+
+  date.setDate(date.getDate() - days);
+  
+  return date.getTime();
+}
+
 module.exports.dropReceipts = async (req, res) => {
   try {
     const droped = await Receipt.remove({});
@@ -124,6 +137,111 @@ module.exports.getCurrency = (req, res) => {
       res.status(500).json(error);
     });
 }
+
+module.exports.globalUpdate = async (req, res) => {
+  const dayAgo = getDaysAgo(30);
+  
+  const options = {
+    from: dayAgo,
+    to: null
+  };
+
+  try {
+    const userData = await MonoAPI.fetch('client-info');
+
+    let sendResult = false;
+    let savedWallets = [];
+    let round = 0;
+    userData.accounts.forEach((account, index, array) => {
+      setTimeout(async () => {
+        const walletData = {
+          wallet_id: account.id,
+          name: `Mono-${account.type}`,
+          balance: account.balance,
+          creditLimit: account.creditLimit
+        }
+        
+        options['account'] = `${account.id}/`;
+  
+        const wallet = await new Wallet(walletData);
+
+        wallet.save(async (err, document) => {
+          const walletReceipts = await MonoAPI.fetch('statement', options);
+          let savedRecipts = [];
+          if (walletReceipts.length) {
+            savedRecipts = await Promise.allSettled(walletReceipts.map(receipt => saveReceipt({...receipt, walletId: document._id})));
+          }
+          
+          showResult = array.length === (index + 1);
+          savedWallets.push({wallet: document, receipts: savedRecipts});
+        });
+
+        
+      }, 60000 * round);
+      round += 1;
+    });
+
+    const response = setInterval(() => {
+      if (showResult) {
+        res.status(200).json(savedWallets);
+
+        clearInterval(response);
+      }
+    }, 5000);
+  } catch(err) {
+    console.log(err+'catch');
+    res.status(500).json(err);
+  }
+}
+
+module.exports.dropWallets = async (req, res) => {
+  try {
+    const RemovedWallets = await Wallet.remove()
+
+    res.status(200).json(RemovedWallets);
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json(err);
+  }
+}
+
+module.exports.getWallet = async (req, res) => {
+  try {
+    const Wallets = await Wallet.find();
+    
+    res.status(200).json(Wallets);
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json(err);
+  }
+}
+
+module.exports.getReceiptsSimple = async (req, res) => {
+  try {
+    const Receipts = await Receipt.find().lean();
+
+    res.status(200).json(Receipts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
+module.exports.getByWalletId = async (req, res) => {
+  try {
+    const walletId = req.query.wallet;
+
+    const Receipts = await Receipt.find({walletId: walletId});
+
+    res.status(200).json(Receipts);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+}
+
+// module.exports.dbUpdate = 
 
 module.exports.getReceipt = (req, res) => {
   const options = {
@@ -172,7 +290,8 @@ module.exports.getReceipts = async (req, res) => {
 
     const groupedByCategory = Receipts.reduce((groups, receipt) => {
       if (!groups[receipt.category]) {
-        const budget = BudgetGroups.find(budget => budget.category === receipt.category).amount;
+        let budget = BudgetGroups.find(budget => budget.category === receipt.category);
+        budget = budget ? budget.amount : 0;
         groups[receipt.category] = {
           receipts: [],
           total: 0,
@@ -185,14 +304,18 @@ module.exports.getReceipts = async (req, res) => {
       if (!groups['Кешбек']) {
         groups['Кешбек'] = {
           receipts: [],
-          total: 0
+          total: 0,
+          budget: 0,
+          balance: 0
         };
       }
 
       if (!groups['Коммісії']) {
         groups['Коммісії'] = {
           receipts: [],
-          total: 0
+          total: 0,
+          budget: 0,
+          balance: 0
         };
       }
 
