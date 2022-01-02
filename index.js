@@ -32,6 +32,7 @@ app.get('/getWallet', MonoController.getWallet);
 app.get('/dropWallets', MonoController.dropWallets);
 app.get('/getReceiptsSimple', MonoController.getReceiptsSimple);
 app.get('/getByWalletId', MonoController.getByWalletId);
+app.post('/addWallet', MonoController.addWallet);
 
 app.listen(port, () => {
   console.log(`app is running on ${port}`);
