@@ -232,13 +232,80 @@ module.exports.getByWalletId = async (req, res) => {
   try {
     const walletId = req.query.wallet;
 
-    const Receipts = await Receipt.find({walletId: walletId});
+    let Receipts = await Receipt.find({walletId: walletId, sortDate: {
+      $gte: '2021-12-01',
+      $lte: '2021-12-31'
+    }}).lean();
+    const BudgetGroups = await Budget.find({month: { $eq: 12 }}).lean();
+    Receipts = transformReceipts(Receipts);
 
-    res.status(200).json(Receipts);
+    const groupedByCategory = Receipts.reduce((groups, receipt) => {
+      if (!groups[receipt.category]) {
+        let budget = BudgetGroups.find(budget => budget.category === receipt.category);
+        budget = budget ? budget.amount : 0;
+        groups[receipt.category] = {
+          receipts: [],
+          total: 0,
+          budget: budget,
+          balance: budget
+        };
+
+      }
+
+      if (!groups['Кешбек']) {
+        groups['Кешбек'] = {
+          receipts: [],
+          total: 0,
+          budget: 0,
+          balance: 0
+        };
+      }
+
+      if (!groups['Коммісії']) {
+        groups['Коммісії'] = {
+          receipts: [],
+          total: 0,
+          budget: 0,
+          balance: 0
+        };
+      }
+
+      if (receipt.commissionRate) {
+        receipt.amount += receipt.commissionRate;
+      }
+
+      
+      groups[receipt.category].receipts.push(receipt);
+      groups[receipt.category].total += receipt.amount;
+      groups[receipt.category].balance -= (receipt.amount * -1)
+      
+      if (receipt.cashbackAmount) {
+        const newReceipt = {...receipt};
+        newReceipt.amount = newReceipt.cashbackAmount;
+        groups['Кешбек'].receipts.push(newReceipt);
+        groups['Кешбек'].total += newReceipt.cashbackAmount;
+      }
+
+      if (receipt.commissionRate) {
+        const newReceipt = {...receipt}
+        newReceipt.amount = newReceipt.commissionRate * -1; 
+
+        groups['Коммісії'].receipts.push(newReceipt);
+        groups['Коммісії'].total += newReceipt.commissionRate * -1;
+      }
+
+      return groups;
+    }, {});
+
+    res.status(200).json(groupedByCategory);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
+}
+
+module.exports.addCashWallet = async (req, res) => {
+  
 }
 
 // module.exports.dbUpdate = 
@@ -282,8 +349,8 @@ module.exports.updateDataBase = async (req, res) => {
 module.exports.getReceipts = async (req, res) => {
   try {
     let Receipts = await Receipt.find({sortDate: {
-      $gte: '2021-11-01',
-      $lte: '2021-11-30'
+      $gte: '2022-05-01',
+      $lte: '2022-05-31'
     }}).sort({ time: 'desc'}).lean();
     const BudgetGroups = await Budget.find({month: { $eq: 11 }}).lean();
     Receipts = transformReceipts(Receipts);
